@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo Class — Krunal Rana × Gap2Growth</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #00c060;
+    --green-light: #e8f9f1;
+    --navy: #0d1f35;
+    --text: #1a1a2e;
+    --body: #3d3d52;
+    --muted: #7a7a90;
+    --border: #e2e2ec;
+    --bg: #ffffff;
+    --card: #f9f9fc;
+    --amber: #f59e0b;
+    --amber-light: #fef3c7;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #ededf2;
+    color: var(--text);
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 40px auto;
+    background: var(--bg);
+    border-radius: 6px;
+    box-shadow: 0 2px 40px rgba(0,0,0,0.09);
+    overflow: hidden;
+  }
+
+  /* TOP BAR */
+  .top-bar {
+    background: var(--navy);
+    padding: 24px 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .top-left { color: rgba(255,255,255,0.55); font-size: 13px; line-height: 1.8; }
+  .top-left strong { color: #fff; font-size: 15px; }
+
+  .top-right-group { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+  .logo-pill {
+    background: #fff;
+    border-radius: 8px;
+    padding: 7px 16px;
+    font-weight: 800;
+    font-size: 16px;
+    color: var(--navy);
+  }
+  .logo-pill span { color: var(--green); }
+
+  .duration-badge {
+    background: var(--green);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 7px 14px;
+    border-radius: 6px;
+    letter-spacing: 0.3px;
+  }
+
+  /* BODY */
+  .body { padding: 48px 52px 64px; }
+
+  /* TITLE BLOCK */
+  .title-block { margin-bottom: 36px; }
+
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(22px, 3.5vw, 30px);
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.25;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    font-size: 14.5px;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 600px;
+  }
+
+  /* TIMELINE STRIP */
+  .timeline {
+    display: flex;
+    gap: 0;
+    margin-bottom: 44px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .tl-seg {
+    flex: 1;
+    padding: 10px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.4;
+    border-right: 1px solid var(--border);
+    background: var(--card);
+    color: var(--body);
+  }
+  .tl-seg:last-child { border-right: none; }
+  .tl-seg .tl-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--green);
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  /* SEC HEADING */
+  .sec-head {
+    font-family: 'Lora', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 44px 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .sec-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--green);
+    background: var(--green-light);
+    padding: 3px 10px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  /* SEGMENT CARDS */
+  .segment {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 26px 28px;
+    margin-bottom: 16px;
+  }
+
+  .segment.highlight {
+    background: var(--navy);
+    border-color: var(--navy);
+  }
+
+  .seg-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+
+  .segment.highlight .seg-label { color: #00e87b; }
+
+  .seg-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+    line-height: 1.35;
+  }
+
+  .segment.highlight .seg-title { color: #fff; }
+
+  .pitch-text {
+    font-size: 15.5px;
+    line-height: 1.9;
+    color: var(--body);
+    font-style: italic;
+    border-left: 3px solid var(--green);
+    padding-left: 16px;
+    margin-bottom: 14px;
+  }
+
+  .segment.highlight .pitch-text {
+    color: rgba(255,255,255,0.75);
+    border-left-color: #00e87b;
+  }
+
+  .talk-points {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .talk-points li {
+    font-size: 13.5px;
+    color: var(--body);
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.55;
+  }
+
+  .segment.highlight .talk-points li { color: rgba(255,255,255,0.68); }
+
+  .talk-points li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .talk-points li strong { color: var(--text); }
+  .segment.highlight .talk-points li strong { color: #fff; }
+
+  .note {
+    margin-top: 14px;
+    font-size: 12.5px;
+    color: var(--amber);
+    background: var(--amber-light);
+    border-radius: 6px;
+    padding: 9px 14px;
+    line-height: 1.55;
+  }
+
+  /* TOOL CLASSIFICATION */
+  .tool-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 4px;
+  }
+
+  .tool-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 18px;
+  }
+
+  .tool-card.wide { grid-column: 1 / -1; }
+
+  .tc-cat {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+
+  .tc-title {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .tc-tools {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--green);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .tc-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .tc-points {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 8px;
+  }
+
+  .tc-points li {
+    font-size: 12.5px;
+    color: var(--body);
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .tc-points li::before { content: '·'; position: absolute; left: 3px; color: var(--green); font-weight: 900; }
+
+  /* CLOSING TIPS */
+  .tips-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-top: 4px;
+  }
+
+  .tip {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 16px;
+  }
+
+  .tip-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--green);
+    margin-bottom: 8px;
+    opacity: 0.5;
+  }
+
+  .tip-title { font-size: 13.5px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+  .tip p { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+
+  @media (max-width: 640px) {
+    .body { padding: 28px 20px 48px; }
+    .top-bar { padding: 18px 20px; }
+    .timeline { flex-wrap: wrap; }
+    .tl-seg { flex: none; width: 50%; }
+    .tool-grid { grid-template-columns: 1fr; }
+    .tool-card.wide { grid-column: auto; }
+    .tips-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="top-left">
+      <strong>Demo Class — Krunal Rana</strong><br>
+      AI Engineer &amp; Software Developer<br>
+      Gap2Growth · March 2026
+    </div>
+    <div class="top-right-group">
+      <div class="logo-pill">Gap <span>²</span> Growth</div>
+      <div class="duration-badge">⏱ 20 Minutes</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- TITLE -->
+    <div class="title-block">
+      <div class="kicker">Demo Lecture Outline</div>
+      <h1>AI in 2026 — From Hype to How:<br>Tools, Thinking, and Real-World Impact</h1>
+      <p class="subtitle">A structured 20-minute session designed to showcase teaching style, technical depth, and relevance — covering AI's evolution, today's tool landscape, and what actually makes the difference when using AI.</p>
+    </div>
+
+    <!-- TIMELINE STRIP -->
+    <div class="timeline">
+      <div class="tl-seg"><span class="tl-time">0:00</span>Opening & Hook</div>
+      <div class="tl-seg"><span class="tl-time">2:00</span>AI Before ChatGPT</div>
+      <div class="tl-seg"><span class="tl-time">5:00</span>2022 → 2026</div>
+      <div class="tl-seg"><span class="tl-time">9:00</span>Why It Matters Now</div>
+      <div class="tl-seg"><span class="tl-time">12:00</span>Tool Landscape</div>
+      <div class="tl-seg"><span class="tl-time">17:00</span>What's Next + Close</div>
+    </div>
+
+    <!-- SECTION 1: OPENING -->
+    <div class="sec-head">
+      Opening &amp; Greeting
+      <span class="sec-time">0:00 – 2:00 min</span>
+    </div>
+
+    <div class="segment highlight">
+      <div class="seg-label">Say This — Word for Word</div>
+      <div class="seg-title">"Namaskar — and welcome."</div>
+      <div class="pitch-text">
+        "My name is Krunal Rana. I'm a Full Stack AI Engineer from Ahmedabad — and for the last 3 years, I haven't just been learning about AI. I've been building with it, shipping real products with it, and using it every single day.<br><br>
+        In the next 20 minutes, I'm not going to show you a bunch of slides. I want to give you something more useful — a clear mental model for where AI came from, where it is right now in 2026, and most importantly — <em>how to actually use it to give yourself an unfair advantage.</em><br><br>
+        Whether you're a student, a working professional, or someone who just wants to stay relevant — this session is for you. Let's go."
+      </div>
+      <ul class="talk-points">
+        <li>Introduce yourself in 2 lines max — name, role, years of experience</li>
+        <li>Mention one real thing you've built with AI — makes it concrete immediately</li>
+        <li>Set the expectation: this is practical, not theoretical</li>
+        <li>Eye contact, slow pace — let the room settle before moving forward</li>
+      </ul>
+    </div>
+
+    <!-- SECTION 2: BEFORE CHATGPT -->
+    <div class="sec-head">
+      Where Was AI Before 2022?
+      <span class="sec-time">2:00 – 5:00 min</span>
+    </div>
+
+    <div class="segment">
+      <div class="seg-label">Context Setting</div>
+      <div class="seg-title">AI Was Always Around — You Just Didn't Call It That</div>
+      <ul class="talk-points">
+        <li><strong>Netflix & YouTube recommendations</strong> — AI deciding what you watch next since 2010s</li>
+        <li><strong>Google Search ranking</strong> — AI scoring millions of pages in milliseconds to show you results</li>
+        <li><strong>Spam filters in Gmail</strong> — AI reading every email before you see it</li>
+        <li><strong>Face unlock on your phone</strong> — computer vision, running real-time on device</li>
+        <li><strong>Google Translate</strong> — neural machine translation, available to everyone for free</li>
+        <li><strong>Fraud detection in banking</strong> — AI flagging suspicious transactions 24/7</li>
+        <li><strong>Weather forecasting</strong> — models processing satellite data to predict rain 10 days out</li>
+      </ul>
+      <div class="note">
+        💡 Key point to land: "AI was always working for us — but it was invisible, and it was narrow. Each tool did one specific thing. What changed in 2022 is that AI learned to talk — and suddenly, anyone could use it."
+      </div>
+    </div>
+
+    <!-- SECTION 3: 2022 TO 2026 -->
+    <div class="sec-head">
+      The Evolution: 2022 → 2026
+      <span class="sec-time">5:00 – 9:00 min</span>
+    </div>
+
+    <div class="segment">
+      <div class="seg-label">Timeline</div>
+      <div class="seg-title">From One Chatbot to an Entire Ecosystem</div>
+      <ul class="talk-points">
+        <li><strong>Late 2022 — ChatGPT launches.</strong> First general-purpose AI anyone could talk to. 1 million users in 5 days. The world notices.</li>
+        <li><strong>2023 — The race begins.</strong> Google launches Gemini, Meta releases LLaMA open-source, Microsoft embeds Copilot into Office. AI goes from experiment to product.</li>
+        <li><strong>2024 — Multimodal AI arrives.</strong> AI can now see images, hear voice, read documents, write code. GPT-4o, Claude 3, Gemini 1.5. Reasoning improves dramatically.</li>
+        <li><strong>2025 — Agents and automation.</strong> AI stops just answering questions — it starts taking actions. AI agents can browse the web, write and run code, send emails, book meetings on your behalf.</li>
+        <li><strong>2026 — The one-person company era.</strong> A single person with the right AI stack can now do work that used to need a team of 5–10. This is not a future prediction — it's happening right now.</li>
+      </ul>
+      <div class="note">
+        💡 Pause here and ask the room: "How many of you used any AI tool in the last week?" — builds engagement and gives you a live read on the audience.
+      </div>
+    </div>
+
+    <!-- SECTION 4: WHY IT MATTERS -->
+    <div class="sec-head">
+      Why Learning This Is Not Optional Anymore
+      <span class="sec-time">9:00 – 12:00 min</span>
+    </div>
+
+    <div class="segment">
+      <div class="seg-label">The Real Shift</div>
+      <div class="seg-title">Unlimited Power — But Only If You Know How to Ask</div>
+      <div class="pitch-text">
+        "Every AI tool available today has essentially unlimited capability. But here's what nobody tells you: the output is only as good as the input. If you know what to ask, and how to ask it — you get professional-grade output. If you don't, you get garbage. That skill — knowing how to direct AI — is what separates people who benefit from it and people who get left behind."
+      </div>
+      <ul class="talk-points">
+        <li><strong>US Military uses Claude Code</strong> to write, review, and deploy secure software — what took a team, one person can now manage</li>
+        <li><strong>AI-first law firms</strong> are emerging — one lawyer with AI handling research, contract drafting, and case prep that used to require a full team</li>
+        <li><strong>Doctors using AI</strong> to cross-check diagnoses, flag rare conditions, and read radiology scans — not replacing doctors, but making them 10× more accurate</li>
+        <li><strong>In every profession</strong> — the person who knows how to use AI well will outperform the one who doesn't, every single time</li>
+        <li><strong>This is your moment</strong> — the skill gap is real, and right now, learning it puts you ahead of 90% of your peers</li>
+      </ul>
+      <div class="note">
+        💡 Connect to Gap2Growth's message: "This is exactly why Gap2Growth exists — not to teach you to click buttons, but to teach you to think with AI. And that is a fundamentally different thing."
+      </div>
+    </div>
+
+    <!-- SECTION 5: TOOL LANDSCAPE -->
+    <div class="sec-head">
+      The AI Tool Landscape in 2026
+      <span class="sec-time">12:00 – 17:00 min</span>
+    </div>
+
+    <div class="segment">
+      <div class="seg-label">Classification</div>
+      <div class="seg-title">There Are 1,000+ Tools — Here's How to Think About Them</div>
+      <p style="font-size:14px; color:var(--muted); margin-bottom:18px; line-height:1.6;">
+        "You don't need to learn every tool. You need to understand which category of tool solves which category of problem. Once you have that mental map — you'll always know what to reach for."
+      </p>
+    </div>
+
+    <div class="tool-grid">
+
+      <div class="tool-card">
+        <div class="tc-cat">Category 1</div>
+        <div class="tc-title">General Purpose AI — Your Daily Driver</div>
+        <div class="tc-tools">ChatGPT · Gemini · DeepSeek · Grok</div>
+        <div class="tc-desc">Use these for everything broad — writing, summarising, brainstorming, explaining, translating, answering questions.</div>
+        <ul class="tc-points">
+          <li>Drafting emails, reports, presentations</li>
+          <li>Learning any new concept, fast</li>
+          <li>Brainstorming ideas and refining them</li>
+          <li>Your first stop for almost any task</li>
+        </ul>
+      </div>
+
+      <div class="tool-card">
+        <div class="tc-cat">Category 2</div>
+        <div class="tc-title">Research & Deep Search</div>
+        <div class="tc-tools">Perplexity · Gemini Deep Research</div>
+        <div class="tc-desc">When you need real, sourced, current information — not just a confident-sounding answer.</div>
+        <ul class="tc-points">
+          <li>Market research and competitor analysis</li>
+          <li>Fact-checking with live web sources</li>
+          <li>Deep dives on technical or academic topics</li>
+          <li>Building research reports with citations</li>
+        </ul>
+      </div>
+
+      <div class="tool-card">
+        <div class="tc-cat">Category 3</div>
+        <div class="tc-title">Building End Deliverables & Products</div>
+        <div class="tc-tools">Claude · Claude Code · Cursor</div>
+        <div class="tc-desc">When you need to actually ship something — code, a working app, a complex document, a structured system.</div>
+        <ul class="tc-points">
+          <li>Writing, editing, and running real code</li>
+          <li>Building internal tools and dashboards</li>
+          <li>Automating workflows end-to-end</li>
+          <li>The tool professionals use to <em>do</em>, not just talk</li>
+        </ul>
+      </div>
+
+      <div class="tool-card">
+        <div class="tc-cat">Category 4</div>
+        <div class="tc-title">Learning, Documents & Knowledge Bases</div>
+        <div class="tc-tools">NotebookLM · ChatPDF · Claude Projects</div>
+        <div class="tc-desc">When your scope is defined — a specific document, a course, a dataset — and you need AI to work within that context.</div>
+        <ul class="tc-points">
+          <li>Upload your notes, textbooks, PDFs — ask anything</li>
+          <li>Build personal knowledge assistants</li>
+          <li>Summarise long reports in seconds</li>
+          <li>Great for students preparing for exams or interviews</li>
+        </ul>
+      </div>
+
+      <div class="tool-card">
+        <div class="tc-cat">Category 5</div>
+        <div class="tc-title">Structured Data & People Search</div>
+        <div class="tc-tools">Exa.ai · LinkedIn AI · Clay</div>
+        <div class="tc-desc">When you need to find specific people, companies, or structured real-world information at scale.</div>
+        <ul class="tc-points">
+          <li>Finding professionals in any field or domain</li>
+          <li>Competitor intelligence and market mapping</li>
+          <li>Lead generation and outreach at scale</li>
+          <li>Data enrichment for business decisions</li>
+        </ul>
+      </div>
+
+      <div class="tool-card">
+        <div class="tc-cat">Category 6 — The Power Layer</div>
+        <div class="tc-title">Connectors, Workflows & Automation</div>
+        <div class="tc-tools">MCP · n8n · Zapier · Make · GPT Actions</div>
+        <div class="tc-desc">This is where things get powerful — connecting multiple tools so they work together automatically, without you in the loop.</div>
+        <ul class="tc-points">
+          <li>Auto-send a report every Monday morning</li>
+          <li>When a lead fills a form → AI writes personalised reply → sends it</li>
+          <li>Connect your calendar, email, Slack, and CRM — let AI manage it</li>
+          <li>This is what "one-person company" actually means in practice</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- SECTION 6: CLOSE -->
+    <div class="sec-head">
+      Closing — What We'll Build Together
+      <span class="sec-time">17:00 – 20:00 min</span>
+    </div>
+
+    <div class="segment highlight">
+      <div class="seg-label">Closing Pitch — Say This</div>
+      <div class="seg-title">"This was the overview. Here's what we're actually going to do."</div>
+      <div class="pitch-text">
+        "Everything I showed you today is the map. In the sessions ahead, we're going to walk the territory — together. You won't just watch me use these tools. You're going to use them yourself, on real tasks, in real time.<br><br>
+        By the end of this course, you won't just know what AI is. You'll know exactly which tool to use for what problem, how to prompt it to get professional-grade output, and how to build workflows that save you hours every week.<br><br>
+        That's the gap we're closing. That's what Gap2Growth is here for. And I'm here to make sure you leave every session with something you can actually use. See you in the next one."
+      </div>
+      <ul class="talk-points">
+        <li>Invite one question from the room — keeps energy up, shows confidence</li>
+        <li>If time allows: do a quick live demo on any tool — even 60 seconds of real usage lands harder than 5 minutes of slides</li>
+        <li>Leave your cal.com link or WhatsApp on screen: <strong>cal.com/connect.krunalrana</strong></li>
+        <li>End on time — respecting the 20 minutes is itself a demonstration of professionalism</li>
+      </ul>
+    </div>
+
+    <!-- DELIVERY TIPS -->
+    <div class="sec-head">Delivery Tips</div>
+
+    <div class="tips-row">
+      <div class="tip">
+        <div class="tip-num">01</div>
+        <div class="tip-title">Don't Read Slides</div>
+        <p>Talk to the room, not the screen. Use slides only as anchors. Your energy and examples are what they'll remember.</p>
+      </div>
+      <div class="tip">
+        <div class="tip-num">02</div>
+        <div class="tip-title">Use "You" Not "People"</div>
+        <p>Say "you can use this to…" not "students can use this." Personal language creates instant connection.</p>
+      </div>
+      <div class="tip">
+        <div class="tip-num">03</div>
+        <div class="tip-title">One Live Demo</div>
+        <p>Even 60 seconds of opening ChatGPT or Claude live and showing something real is worth more than 10 slides.</p>
+      </div>
+      <div class="tip">
+        <div class="tip-num">04</div>
+        <div class="tip-title">Gujarati for Warmth</div>
+        <p>Drop in a Gujarati phrase or two when energy dips — it builds instant warmth and trust with a local audience.</p>
+      </div>
+      <div class="tip">
+        <div class="tip-num">05</div>
+        <div class="tip-title">Pause After Big Points</div>
+        <p>After a strong statement — stop. Let it land. Silence is powerful and shows you know what you're saying matters.</p>
+      </div>
+      <div class="tip">
+        <div class="tip-num">06</div>
+        <div class="tip-title">End Exactly on Time</div>
+        <p>20 minutes, not 22. Hitting your time shows control and leaves the audience wanting more — perfect for a demo.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
