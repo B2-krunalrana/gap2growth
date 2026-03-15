@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 01 — Gap2Growth × AI Literacy</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #00c060;
+    --green-light: #e8f9f1;
+    --navy: #0d1f35;
+    --text: #1a1a2e;
+    --body: #3d3d52;
+    --muted: #7a7a90;
+    --border: #e2e2ec;
+    --bg: #ffffff;
+    --card: #f9f9fc;
+    --amber: #f59e0b;
+    --amber-light: #fef3c7;
+    --blue: #3b82f6;
+    --blue-light: #eff6ff;
+    --red: #ef4444;
+    --red-light: #fff0f0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #ededf2;
+    color: var(--text);
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 40px auto;
+    background: var(--bg);
+    border-radius: 6px;
+    box-shadow: 0 2px 40px rgba(0,0,0,0.09);
+    overflow: hidden;
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    background: var(--navy);
+    padding: 24px 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .top-left { color: rgba(255,255,255,0.55); font-size: 13px; line-height: 1.8; }
+  .top-left strong { color: #fff; font-size: 15px; }
+  .top-right-group { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .logo-pill {
+    background: #fff; border-radius: 8px;
+    padding: 7px 16px; font-weight: 800;
+    font-size: 16px; color: var(--navy);
+  }
+  .logo-pill span { color: var(--green); }
+  .duration-badge {
+    background: var(--green); color: #fff;
+    font-size: 12px; font-weight: 700;
+    padding: 7px 14px; border-radius: 6px;
+  }
+  .day-badge {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.8);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    padding: 7px 14px; border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  /* ── BODY ── */
+  .body { padding: 48px 52px 72px; }
+
+  /* ── TITLE BLOCK ── */
+  .title-block { margin-bottom: 36px; }
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 2.5px;
+    text-transform: uppercase; color: var(--green);
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(22px, 3.5vw, 30px);
+    font-weight: 700; color: var(--text);
+    line-height: 1.25; margin-bottom: 10px;
+  }
+  .subtitle {
+    font-size: 14.5px; color: var(--muted);
+    line-height: 1.7; max-width: 640px;
+  }
+
+  /* ── TIMELINE STRIP ── */
+  .timeline-strip {
+    display: flex; gap: 0;
+    margin-bottom: 44px;
+    border-radius: 8px; overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .tl-seg {
+    flex: 1; padding: 10px 12px;
+    font-size: 10.5px; font-weight: 600;
+    text-align: center; line-height: 1.4;
+    border-right: 1px solid var(--border);
+    background: var(--card); color: var(--body);
+  }
+  .tl-seg:last-child { border-right: none; }
+  .tl-seg .tl-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; font-weight: 700;
+    color: var(--green); display: block;
+    margin-bottom: 3px;
+  }
+
+  /* ── SECTION HEADING ── */
+  .sec-head {
+    font-family: 'Lora', serif;
+    font-size: 18px; font-weight: 700;
+    color: var(--text);
+    margin: 44px 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 1.5px solid var(--border);
+    display: flex; align-items: center; gap: 12px;
+    flex-wrap: wrap;
+  }
+  .sec-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    color: var(--green); background: var(--green-light);
+    padding: 3px 10px; border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  /* ── SEGMENT CARDS ── */
+  .segment {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 26px 28px;
+    margin-bottom: 14px;
+  }
+  .segment.dark {
+    background: var(--navy);
+    border-color: var(--navy);
+  }
+  .segment.amber-tint {
+    background: var(--amber-light);
+    border-color: #fde68a;
+  }
+  .segment.green-tint {
+    background: var(--green-light);
+    border-color: #bbf7d0;
+  }
+  .segment.blue-tint {
+    background: var(--blue-light);
+    border-color: #bfdbfe;
+  }
+
+  .seg-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--green);
+    margin-bottom: 8px;
+  }
+  .segment.dark .seg-label { color: #00e87b; }
+  .segment.amber-tint .seg-label { color: #92400e; }
+  .segment.blue-tint .seg-label { color: var(--blue); }
+
+  .seg-title {
+    font-size: 16px; font-weight: 700;
+    color: var(--text); margin-bottom: 12px;
+    line-height: 1.35;
+  }
+  .segment.dark .seg-title { color: #fff; }
+  .segment.amber-tint .seg-title { color: #78350f; }
+  .segment.blue-tint .seg-title { color: #1e40af; }
+
+  .pitch-text {
+    font-size: 15px; line-height: 1.9;
+    color: var(--body); font-style: italic;
+    border-left: 3px solid var(--green);
+    padding-left: 16px; margin-bottom: 14px;
+  }
+  .segment.dark .pitch-text {
+    color: rgba(255,255,255,0.72);
+    border-left-color: #00e87b;
+  }
+
+  .talk-points {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 9px;
+    margin-top: 14px;
+  }
+  .talk-points li {
+    font-size: 13.5px; color: var(--body);
+    padding-left: 20px; position: relative;
+    line-height: 1.6;
+  }
+  .segment.dark .talk-points li { color: rgba(255,255,255,0.65); }
+  .talk-points li::before {
+    content: '→'; position: absolute; left: 0;
+    color: var(--green); font-size: 12px; font-weight: 700;
+  }
+  .talk-points li strong { color: var(--text); }
+  .segment.dark .talk-points li strong { color: #fff; }
+
+  /* plain body text */
+  .body-text {
+    font-size: 14px; color: var(--body);
+    line-height: 1.75; margin-top: 10px;
+  }
+  .segment.dark .body-text { color: rgba(255,255,255,0.6); }
+
+  /* note / callout */
+  .note {
+    margin-top: 14px; font-size: 12.5px;
+    color: var(--amber);
+    background: var(--amber-light);
+    border-radius: 6px; padding: 9px 14px;
+    line-height: 1.6;
+  }
+  .segment.dark .note {
+    background: rgba(245,158,11,0.12);
+    color: #fbbf24;
+  }
+
+  .note-blue {
+    margin-top: 14px; font-size: 12.5px;
+    color: var(--blue);
+    background: var(--blue-light);
+    border-radius: 6px; padding: 9px 14px;
+    line-height: 1.6;
+  }
+
+  /* fact highlight */
+  .fact-row {
+    display: flex; gap: 14px;
+    align-items: flex-start;
+    background: #f0fdf9;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 12px;
+  }
+  .fact-row .fi { font-size: 1.4rem; flex-shrink: 0; }
+  .fact-row p { font-size: 13px; color: var(--body); line-height: 1.6; }
+  .fact-row p strong { color: #065f46; }
+
+  /* two-col grid */
+  .two-col {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 14px; margin-top: 4px;
+  }
+  .mini-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .mc-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--green); margin-bottom: 6px;
+  }
+  .mc-title {
+    font-size: 13.5px; font-weight: 700;
+    color: var(--text); margin-bottom: 6px;
+  }
+  .mc-list {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 5px;
+  }
+  .mc-list li {
+    font-size: 12.5px; color: var(--body);
+    padding-left: 14px; position: relative;
+    line-height: 1.5;
+  }
+  .mc-list li::before { content: '·'; position: absolute; left: 3px; color: var(--green); font-weight: 900; font-size: 14px; line-height: 1.3; }
+
+  /* comparison table */
+  .comp-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  .comp-table th {
+    text-align: left; padding: 9px 14px;
+    background: var(--navy); color: rgba(255,255,255,0.75);
+    font-size: 11.5px; font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .comp-table th:first-child { border-radius: 6px 0 0 0; }
+  .comp-table th:last-child  { border-radius: 0 6px 0 0; }
+  .comp-table td {
+    padding: 9px 14px; font-size: 13px;
+    border-bottom: 1px solid var(--border);
+    color: var(--body); vertical-align: top;
+    line-height: 1.5;
+  }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .comp-table td:first-child { font-weight: 600; color: var(--text); width: 28%; }
+
+  /* chip tags */
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+  .chip {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px; font-weight: 500;
+    padding: 3px 10px; border-radius: 5px;
+  }
+  .chip-green { background: var(--green-light); color: #065f46; }
+  .chip-red   { background: var(--red-light);   color: var(--red); }
+  .chip-amber { background: var(--amber-light);  color: #78350f; }
+  .chip-blue  { background: var(--blue-light);   color: #1e40af; }
+  .chip-grey  { background: var(--card);         color: var(--muted); border: 1px solid var(--border); }
+
+  /* step list */
+  .step-list {
+    display: flex; flex-direction: column; gap: 12px;
+    margin-top: 12px;
+  }
+  .step-item {
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .step-num {
+    width: 28px; height: 28px; flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--navy);
+    color: var(--green);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step-body .st-title {
+    font-size: 13.5px; font-weight: 700;
+    color: var(--text); margin-bottom: 2px;
+  }
+  .step-body .st-desc {
+    font-size: 12.5px; color: var(--muted); line-height: 1.55;
+  }
+
+  /* ── INSTRUCTION WINDOW ── */
+  .iw-wrap {
+    border: 2px solid var(--navy);
+    border-radius: 12px; overflow: hidden;
+    margin: 44px 0;
+    box-shadow: 0 4px 24px rgba(13,31,53,0.12);
+  }
+  .iw-titlebar {
+    background: var(--navy);
+    padding: 12px 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .iw-dots { display: flex; gap: 6px; }
+  .iw-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .iw-dot:nth-child(1) { background: #ff5f56; }
+  .iw-dot:nth-child(2) { background: #ffbd2e; }
+  .iw-dot:nth-child(3) { background: #27c93f; }
+  .iw-bar-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; color: rgba(255,255,255,0.4);
+    margin-left: 8px;
+  }
+  .iw-body {
+    background: var(--bg);
+    padding: 32px 36px;
+  }
+
+  .iw-kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 2.5px;
+    text-transform: uppercase; color: var(--green);
+    margin-bottom: 8px;
+  }
+  .iw-title {
+    font-family: 'Lora', serif;
+    font-size: clamp(18px, 2.5vw, 24px);
+    font-weight: 700; color: var(--text);
+    line-height: 1.3; margin-bottom: 8px;
+  }
+  .iw-intro {
+    font-size: 14px; color: var(--body);
+    line-height: 1.8; margin-bottom: 24px;
+    max-width: 620px;
+  }
+  .iw-intro strong { color: var(--text); }
+
+  .reason-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin-bottom: 24px;
+  }
+  .reason-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px;
+  }
+  .rc-icon { font-size: 1.4rem; margin-bottom: 6px; }
+  .rc-title {
+    font-size: 13px; font-weight: 700;
+    color: var(--text); margin-bottom: 4px;
+  }
+  .rc-desc { font-size: 12px; color: var(--muted); line-height: 1.55; }
+
+  .iw-steps-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 20px 22px;
+    margin-bottom: 20px;
+  }
+  .iw-steps-title {
+    font-size: 13px; font-weight: 700;
+    color: var(--text); margin-bottom: 14px;
+  }
+
+  .iw-email-row {
+    display: flex; align-items: center;
+    gap: 10px; flex-wrap: wrap;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 14px 18px;
+    margin-bottom: 16px;
+  }
+  .iw-email-label {
+    font-size: 12.5px; color: var(--muted);
+    font-weight: 500; white-space: nowrap;
+  }
+  .email-chip {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; font-weight: 500;
+    color: var(--green);
+    background: var(--green-light);
+    border: 1px solid #bbf7d0;
+    padding: 5px 12px; border-radius: 6px;
+  }
+
+  .iw-task-box {
+    background: var(--navy);
+    border-radius: 8px; padding: 20px 22px;
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .task-icon { font-size: 1.8rem; flex-shrink: 0; }
+  .task-box-title {
+    font-size: 14px; font-weight: 700;
+    color: #fff; margin-bottom: 6px;
+  }
+  .task-box-body {
+    font-size: 13px;
+    color: rgba(255,255,255,0.62);
+    line-height: 1.7;
+  }
+  .task-box-body strong { color: #00e87b; }
+
+  /* ── TIPS GRID ── */
+  .tips-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px; margin-top: 4px;
+  }
+  .tip {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px; padding: 18px 16px;
+  }
+  .tip-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px; font-weight: 500;
+    color: var(--green); margin-bottom: 8px;
+    opacity: 0.5;
+  }
+  .tip-title { font-size: 13.5px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+  .tip p { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+
+  /* ── HW GRID ── */
+  .hw-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 14px; margin-top: 4px;
+  }
+  .hw-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px; padding: 18px 16px;
+  }
+  .hw-tool {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; color: var(--green);
+    font-weight: 500; margin-bottom: 6px;
+  }
+  .hw-title {
+    font-size: 13.5px; font-weight: 700;
+    color: var(--text); margin-bottom: 5px;
+  }
+  .hw-desc { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+
+  @media (max-width: 640px) {
+    .body { padding: 28px 20px 52px; }
+    .top-bar { padding: 18px 20px; }
+    .two-col { grid-template-columns: 1fr; }
+    .reason-grid { grid-template-columns: 1fr; }
+    .tips-row { grid-template-columns: 1fr; }
+    .hw-grid { grid-template-columns: 1fr; }
+    .timeline-strip { flex-wrap: wrap; }
+    .tl-seg { flex: none; width: 50%; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="top-left">
+      <strong>Day 01 — Full Lecture Guide · Krunal Rana</strong><br>
+      AI Literacy Program · Gap2Growth · 2026
+    </div>
+    <div class="top-right-group">
+      <div class="day-badge">DAY 01 / 30</div>
+      <div class="logo-pill">Gap <span>²</span> Growth</div>
+      <div class="duration-badge">⏱ 2 Hours</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- TITLE -->
+    <div class="title-block">
+      <div class="kicker">Full Lecture Notes</div>
+      <h1>The Internet, AI & You —<br>Where It All Begins</h1>
+      <p class="subtitle">
+        Everything Krunal needs to deliver a confident, energetic, 2-hour session for mixed-background college students. Every section has exact speaking notes, a live demo, a student question, and an interesting fact — so there are zero dead moments.
+      </p>
+    </div>
+
+    <!-- TIMELINE STRIP -->
+    <div class="timeline-strip">
+      <div class="tl-seg"><span class="tl-time">0:00</span>Opening Hook</div>
+      <div class="tl-seg"><span class="tl-time">0:05</span>How Internet Works</div>
+      <div class="tl-seg"><span class="tl-time">0:20</span>ChatGPT Journey</div>
+      <div class="tl-seg"><span class="tl-time">0:30</span>AI vs Google</div>
+      <div class="tl-seg"><span class="tl-time">0:45</span>Good vs Bad</div>
+      <div class="tl-seg"><span class="tl-time">1:00</span>India + AI</div>
+      <div class="tl-seg"><span class="tl-time">1:15</span>AI = New English</div>
+      <div class="tl-seg"><span class="tl-time">1:25</span>★ Setup Task</div>
+      <div class="tl-seg"><span class="tl-time">1:30</span>Hands-On</div>
+      <div class="tl-seg"><span class="tl-time">1:55</span>Close</div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════
+         SECTION 1 — OPENING HOOK
+    ═══════════════════════════════════ -->
+    <div class="sec-head">
+      Section 1 — Opening Hook
+      <span class="sec-time">0:00 – 0:05 · 5 min</span>
+    </div>
+
+    <div class="segment dark">
+      <div class="seg-label">Say This — Open With This Exact Energy</div>
+      <div class="seg-title">"Don't open with slides. Open with a question."</div>
+      <div class="pitch-text">
+        Walk in. Don't touch the laptop yet. Look around the room. Smile. Then ask:<br><br>
+        "When you sent your last WhatsApp message two minutes ago — where did it actually go? Not 'to your friend.' I mean physically. Where did those words travel?"<br><br>
+        Let them answer. Someone will say "internet." Someone might say "satellite." Accept everything. Then say:<br><br>
+        "Let me show you something that will change how you see every app on your phone — forever."
+      </div>
+      <ul class="talk-points">
+        <li><strong>Now open the laptop.</strong> Go to submarinecablemap.com. Project it. Zoom into India's coastline slowly.</li>
+        <li>Point at the cables: <em>"See these orange and yellow lines under the ocean? Your WhatsApp message — and your ChatGPT reply — physically travelled through one of these."</em></li>
+        <li>Zoom out to show the full world map. Let the visual do the work for 10 seconds. Silence is fine here.</li>
+        <li><strong>Then say:</strong> "95% of all international internet traffic goes through these cables. Not satellites. Cables. Laid on the ocean floor by ships."</li>
+      </ul>
+      <div class="note">💡 Energy tip: This opening works because it's visual and surprising. If you see jaws drop or people pull out their phones — perfect. That's the reaction you want.</div>
+    </div>
+
+    <div class="fact-row">
+      <div class="fi">🌊</div>
+      <p>There are over <strong>400 active undersea cables</strong> stretching 1.3 million kilometres across every ocean on Earth. One cable cut near Mumbai in 2008 knocked out internet for 60 million users across South Asia.</p>
+    </div>
+
+
+    <!-- ═══════════════════════════════════
+         SECTION 2 — HOW THE INTERNET WORKS
+    ═══════════════════════════════════ -->
+    <div class="sec-head">
+      Section 2 — How the Internet Actually Works
+      <span class="sec-time">0:05 – 0:20 · 15 min</span>
+    </div>
+
+    <div class="segment">
+      <div class="seg-label">Explain Simply — No Jargon</div>
+      <div class="seg-title">Three Analogies That Make It Click</div>
+      <p class="body-text">Say: "Before we talk about AI, let's understand the highway it drives on. The internet." Then use these three analogies one by one — pause and ask if it makes sense after each one.</p>
+      <div class="two-col" style="margin-top:16px;">
+        <div class="mini-card">
+          <div class="mc-label">Analogy 1</div>
+          <div class="mc-title">Internet = Postal System</div>
+          <ul class="mc-list">
+            <li>Your message is a letter</li>
+            <li>Your phone is the post office</li>
+            <li>Packets = envelopes being routed</li>
+            <li>IP address = your home address</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <div class="mc-label">Analogy 2</div>
+          <div class="mc-title">Servers = Restaurants</div>
+          <ul class="mc-list">
+            <li>You order (request a website)</li>
+            <li>Server cooks and prepares it</li>
+            <li>Dish delivered to your table (browser)</li>
+            <li>Bad connection = slow waiter</li>
+          </ul>
+        </div>
+        <div class="mini-card" style="margin-top:0;">
+          <div class="mc-label">Analogy 3</div>
+          <div class="mc-title">Data Centers = Giant Libraries</div>
+          <ul class="mc-list">
+            <li>All of YouTube lives in buildings</li>
+            <li>Size of 10 shopping malls, cooled 24/7</li>
+            <li>Google has 23 data centers globally</li>
+            <li>Mumbai and Chennai have major ones</li>
+          </ul>
+        </div>
+        <div class="mini-card" style="margin-top:0;">
+          <div class="mc-label">Draw on Board</div>
+          <div class="mc-title">The Full Path</div>
+          <ul class="mc-list">
+            <li>Your phone → Wi-Fi router</li>
+            <li>Router → Jio/Airtel ISP tower</li>
+            <li>ISP → undersea cable</li>
+            <li>Cable → OpenAI data center → AI</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="segment">
+      <div class="seg-label">Step by Step — How a Website Loads</div>
+      <div class="seg-title">Walk Through This on the Board</div>
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="st-title">You type google.com and press Enter</div>
+            <div class="st-desc">Like handing an address to a courier. Your browser needs to find where Google lives.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="st-title">DNS lookup — finding the address</div>
+            <div class="st-desc">DNS is like a giant phone directory. It converts "google.com" into a number (IP address) that computers understand.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="st-title">Request travels to Google's server</div>
+            <div class="st-desc">Your request goes through your router → ISP → possibly undersea cables → Google's nearest data center.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="st-title">Server sends the webpage back</div>
+            <div class="st-desc">Google's server "cooks" your search results and sends them back as data packets, each taking a slightly different route.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <div class="st-title">Your browser assembles it into a page</div>
+            <div class="st-desc">All the packets arrive and your browser puts them together — like completing a puzzle — and shows you the result.</div>
+          </div>
+        </div>
+      </div>
+      <div class="note">💡 Ask the class: "All of this happens in under 200 milliseconds. That is faster than a human blink. Does that make you see your phone differently?"</div>
+    </div>
+
+    <div class="fact-row">
+      <div class="fi">🔍</div>
+      <p>Google processes <strong>8.5 billion searches every single day.</strong> That's 99,000 searches every second — including right now as you're sitting in this room. And each one completes that 5-step journey in under a second.</p>
+    </div>
+
+
+    <!-- ═══════════════════════════════════
+         SECTION 3 — CHATGPT MESSAGE JOURNEY
+    ═══════════════════════════════════ -->
+    <div class="sec-head">
+      Section 3 — Journey of One ChatGPT Message
+      <span class="sec-time">0:20 – 0:30 · 10 min</span>
+    </div>
+
+    <div class="segment">
+      <div class="seg-label">Make It Personal</div>
+      <div class="seg-title">Ask Everyone to Open ChatGPT Right Now</div>
+      <p class="body-text">Say: "Everyone take out your phone or open a laptop. Go to chat.openai.com or the ChatGPT app. We're going to trace exactly what happens when you type a question."</p>
+      <p class="body-text" style="margin-top:10px;">Then draw this journey on the board as you explain — one step at a time, pointing at the board as you talk:</p>
+      <div class="chips" style="margin-top:16px; align-items:center; gap:6px;">
+        <span class="chip chip-amber">1. You type</span>
+        <span style="color:var(--muted); font-size:18px;">→</span>
+        <span class="chip chip-grey">2. Encrypted & sent</span>
+        <span style="color:var(--muted); font-size:18px;">→</span>
+        <span class="chip chip-grey">3. Travels to US data center</span>
+        <span style="color:var(--muted); font-size:18px;">→</span>
+        <span class="chip chip-blue">4. GPU cluster processes it</span>
+        <span style="color:var(--muted); font-size:18px;">→</span>
+        <span class="chip chip-green">5. Answer sent back to you</span>
+      </div>
+      <ul class="talk-points">
+        <li><strong>Step 4 is the magic</strong> — explain: "The AI model is not a person. It's a mathematical system trained on billions of text examples. It predicts the best next word, then the next, then the next — until the answer is complete."</li>
+        <li>Say: "It doesn't 'know' anything the way you know something. It's pattern recognition at an unimaginable scale."</li>
+        <li>Ask: <em>"Doesn't it feel different now — knowing your message physically travelled across an ocean floor and came back in 3 seconds?"</em></li>
+      </ul>
+    </div>
+
+    <div class="fact-row">
+      <div class="fi">🖥️</div>
+      <p>ChatGPT runs on <strong>thousands of NVIDIA H100 GPUs</strong> in data centers. One H100 GPU costs around <strong>₹25–30 lakh.</strong> OpenAI has tens of thousands of them running simultaneously. Every time you send a message, you're using infrastructure worth hundreds of crores — for free.</p>
+    </div>
+
+
+    <!-- ═══════════════════════════════════
+         SECTION 4 — AI VS GOOGLE
+    ═══════════════════════════════════ -->
+    <div class="sec-head">
+      Section 4 — AI vs. Google Search
+      <span class="sec-time">0:30 – 0:45 · 15 min</span>
+    </div>
+
+    <div class="segment dark">
+      <div class="seg-label">Live Demo — Do This on Projector</div>
+      <div class="seg-title">"Same question. Two tools. Completely different answers."</div>
+      <div class="pitch-text">
+        Open Google on one half of the screen, ChatGPT on the other. Type the exact same question into both simultaneously and let the class watch the results appear.
+      </div>
+      <ul class="talk-points">
+        <li><strong>Query to use:</strong> "Plan a 3-day trip to Goa for 2 people under ₹10,000"</li>
+        <li>Google → sponsored ads, links to MakeMyTrip, travel blogs, booking sites. You still have to do all the work.</li>
+        <li>ChatGPT → complete day-by-day itinerary, budget breakdown, food spots, transport costs. Ready to use immediately.</li>
+        <li>Ask the class: <strong>"Which one actually helped you? Be honest."</strong> — nearly everyone will say ChatGPT.</li>
+        <li>Then land the key insight: <em>"Google finds pages. AI reads them, thinks about your specific situation, and gives you the answer."</em></li>
+      </ul>
+      <div class="note">💡 Do a second query if time allows: "Explain compound interest like I'm 10 years old." Google gives textbook links. AI explains with a piggy bank story. The contrast is powerful.</div>
+    </div>
+
+    <div class="segment">
+      <div class="seg-label">Key Difference</div>
+      <div class="seg-title">Search Engine vs. Reasoning Engine</div>
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Google Search</th>
+            <th>AI (ChatGPT / Gemini)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>What it does</td><td>Finds and ranks existing webpages</td><td>Understands your goal and generates an answer</td></tr>
+          <tr><td>Output</td><td>10 blue links to explore</td><td>One direct, structured response</td></tr>
+          <tr><td>Context</td><td>No memory of what you really need</td><td>Understands the full picture you give it</td></tr>
+          <tr><td>Real-time?</td><td>Yes — live web results</td><td>Depends on model (may have knowledge cutoff)</td></tr>
+          <tr><td>Best used for</td><td>Finding sources, checking prices, news</td><td>Getting answers, creating content, solving problems</td></tr>
+        </tbody>
+      </table>
+      <div class="note-blue">💡 Key message to land: "Neither replaces the other. A smart person uses both — Google to find sources, AI to make sense of them."</div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════
+         SECTION 5 — AI GOOD VS BAD
+    ═══════════════════════════════════ -->
+    <div class="sec-head">
+      Section 5 — What AI Is Good At vs. Bad At
+      <span class="sec-time">0:45 – 1:00 · 15 min</span>
+    </div>
+
+    <div class="segment">
+      <div class="seg-label">Be Honest — Both Sides</div>
+      <div class="seg-title">AI Is Powerful. And AI Is Imperfect. Both Are True.</div>
+      <p class="body-text">Say: "I want to give you a balanced picture. AI is not magic. It's an extremely powerful tool — and like every tool, it has things it does brilliantly, and things where it completely fails."</p>
+
+      <div class="two-col" style="margin-top:16px;">
+        <div class="mini-card" style="border-color:#bbf7d0; background:#f0fdf9;">
+          <div class="mc-label" style="color:#065f46;">✅ AI Is Great At</div>
+          <ul class="mc-list">
+            <li>Writing and improving drafts</li>
+            <li>Summarising long documents fast</li>
+            <li>Brainstorming ideas without judgment</li>
+            <li>Explaining complex topics simply</li>
+            <li>Language translation (100+ languages)</li>
+            <li>Writing and debugging code</li>
+            <li>Answering questions 24/7 patiently</li>
+          </ul>
+        </div>
+        <div class="mini-card" style="border-color:#fecaca; background:var(--red-light);">
+          <div class="mc-label" style="color:var(--red);">⚠️ AI Struggles With</div>
+          <ul class="mc-list">
+            <li>Getting specific facts right (hallucination)</li>
+            <li>Knowledge past its training date</li>
+            <li>Real-world judgment and common sense</li>
+            <li>Emotions, empathy, and real connection</li>
+            <li>Verifying if something is actually true</li>
+            <li>Knowing what it doesn't know</li>
+            <li>Local, regional, or niche knowledge</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="segment amber-tint">
+      <div class="seg-label">Critical Concept</div>
+      <div class="seg-title">What is AI Hallucination? (This One Really Matters)</div>
+      <p class="body-text" style="color:#78350f;">Say: <em>"Imagine you have a friend who is extremely confident. You ask them about a Bollywood movie you haven't seen — and instead of saying 'I haven't watched it', they make up an entire plot, characters, and even quote dialogue from it. Completely made up. Said with full confidence. That is exactly what AI does sometimes. It's called hallucination."</em></p>
+      <ul class="talk-points" style="margin-top:14px;">
+        <li style="color:#78350f;"><strong style="color:#44200a;">Live demo:</strong> Ask ChatGPT: "Tell me about the book 'The Blue Mango Tree' by Priya Sharma." — it likely doesn't exist. See what happens. Point out how confidently it may fabricate details.</li>
+        <li style="color:#78350f;"><strong style="color:#44200a;">The rule:</strong> Always verify important facts from AI using Google, official websites, or original sources. AI is your fast first draft — not your final source of truth.</li>
+        <li style="color:#78350f;"><strong style="color:#44200a;">Ask the class:</strong> "Has AI ever given you a wrong answer before? What did you do with that information?"</li>
+      </ul>
+    </div>
+
+    <div class="fact-row">
+      <div class="fi">🎭</div>
+      <p>In a 2023 US court case, a lawyer submitted an AI-generated legal brief with <strong>6 fake case citations</strong> — none of them existed. The judge fined him $5,000. The lesson: AI sounds authoritative even when it's completely wrong.</p>
+    </div>
+
+
+    <!-- ═══════════════════════════════════
+         SECTION 6 — INDIAN COMPANIES
+    ═══════════════════════════════════ -->
+    <div class="sec-head">
+      Section 6 — 5 Indian Companies Using AI Today
+      <span class="sec-time">1:00 – 1:15 · 15 min</span>
+    </div>
+
+    <div class="segment">
+      <div class="seg-label">Make It Real — They Use These Every Day</div>
+      <div class="seg-title">AI Is Not Coming to India. It's Already Here.</div>
+      <p class="body-text">Before showing the table, ask: <em>"Raise your hand if you used Swiggy, or Jio, or Flipkart this week."</em> Almost everyone will raise their hand. Then say: <em>"Then you used AI this week — you just didn't know it."</em></p>
+
+      <table class="comp-table" style="margin-top:16px;">
+        <thead>
+          <tr><th>Company</th><th>How They Use AI</th><th>What It Means for You</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>🟦 Reliance Jio</td>
+            <td>AI monitors the network in real time — predicts congestion and reroutes traffic before slowdowns happen</td>
+            <td>Your calls don't drop during IPL finals because AI is managing the load</td>
+          </tr>
+          <tr>
+            <td>🛍️ Flipkart</td>
+            <td>Recommendation engine learns your browsing and purchase patterns to show you products you'll actually buy</td>
+            <td>"Customers also bought" and "Recommended for you" — that's AI, not a person curating</td>
+          </tr>
+          <tr>
+            <td>🍔 Swiggy</td>
+            <td>Delivery prediction AI estimates ETA using real-time traffic, kitchen preparation speed, and weather</td>
+            <td>That "28 minutes" estimate is AI calculating dozens of variables at once</td>
+          </tr>
+          <tr>
+            <td>🏦 HDFC Bank</td>
+            <td>Fraud detection AI flags unusual transactions in milliseconds — before you even notice something is wrong</td>
+            <td>Your card getting blocked abroad? AI noticed the unusual location and acted in real time</td>
+          </tr>
+          <tr>
+            <td>⚙️ Tata Steel</td>
+            <td>Predictive maintenance AI detects when machines are likely to fail — before they actually break down</td>
+            <td>Saves crores in downtime costs and prevents industrial accidents</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">💡 Discussion question: "Which of these surprised you the most? Which one felt closest to home?" — let 2–3 students respond before moving on.</div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════
+         SECTION 7 — AI = NEW ENGLISH
+    ═══════════════════════════════════ -->
+    <div class="sec-head">
+      Section 7 — Why AI Literacy Is Your New English
+      <span class="sec-time">1:15 – 1:25 · 10 min</span>
+    </div>
+
+    <div class="segment dark">
+      <div class="seg-label">The Big Idea — Land This Clearly</div>
+      <div class="seg-title">"In 1995, your parents were told: learn English. It'll open doors."</div>
+      <div class="pitch-text">
+        "And the ones who did — got BPO jobs, IT jobs, MNC jobs. English became the difference between a ₹8,000/month job and a ₹40,000/month job. Not because English made you smarter. But because it gave you access.<br><br>
+        Today, AI is that same door. And right now — that door is wide open. But it won't stay open forever. The people who learn to use AI well in the next 1–2 years will have an advantage that compounds for decades.<br><br>
+        That is why you are here. And that is what Gap2Growth is here to give you."
+      </div>
+      <ul class="talk-points">
+        <li><strong>Pause after this. Give it 5 seconds.</strong> Let it land before moving to examples.</li>
+        <li><strong>Marketing student:</strong> Using AI to write 10 social media posts in the time a competitor writes 1 — and testing which performs better, automatically.</li>
+        <li><strong>Engineering student:</strong> Using AI to debug code, understand errors, and build projects that take peers 2 weeks in 2 days.</li>
+        <li><strong>Commerce student:</strong> Summarising 40-page annual reports in 3 minutes, drafting investor emails with perfect language, analysing financial data with natural language questions.</li>
+        <li><strong>The gap is real:</strong> Two students with the same degree. One knows how to use AI. One doesn't. Who gets the job? Who gets the promotion? There is only one answer.</li>
+      </ul>
+    </div>
+
+
+    <!-- ═══════════════════════════════════
+         ★ INSTRUCTION WINDOW
+    ═══════════════════════════════════ -->
+    <div class="iw-wrap">
+      <div class="iw-titlebar">
+        <div class="iw-dots">
+          <div class="iw-dot"></div>
+          <div class="iw-dot"></div>
+          <div class="iw-dot"></div>
+        </div>
+        <span class="iw-bar-text">Before We Go Hands-On — Important Setup · Do This Now</span>
+      </div>
+      <div class="iw-body">
+
+        <div class="iw-kicker">One-Time Setup · Takes 5 Minutes · Changes Everything</div>
+        <div class="iw-title">Create a Separate Practice Account<br>Before You Touch Any AI Tool</div>
+
+        <p class="iw-intro">
+          Over the next 30 days, we're going to explore a <strong>lot</strong> of AI products together — and we're not just going to look at them. We're going to connect them to each other, try new apps, link services, share data between tools.<br><br>
+          If you do all of this on your personal Gmail, things will get messy very quickly. Promotional emails, app permissions on your real account, test data mixing with personal stuff.<br><br>
+          <strong>So here's the smart move every developer and tech professional already does: create a clean, separate Gmail account just for this course.</strong> Think of it like wearing lab gloves before an experiment. You're still doing real work — you're just protecting yourself while you do it.
+        </p>
+
+        <div class="reason-grid">
+          <div class="reason-card">
+            <div class="rc-icon">🧪</div>
+            <div class="rc-title">Safe Experimentation</div>
+            <div class="rc-desc">Try any app, connect any service, give any permission — zero risk to your personal account or data.</div>
+          </div>
+          <div class="reason-card">
+            <div class="rc-icon">📥</div>
+            <div class="rc-title">One Clean Inbox</div>
+            <div class="rc-desc">All course updates, resources, and tool confirmations go to one place. No noise in your personal Gmail.</div>
+          </div>
+          <div class="reason-card">
+            <div class="rc-icon">🔁</div>
+            <div class="rc-title">Learn Here, Apply Everywhere</div>
+            <div class="rc-desc">Master the skill in the practice account. Once you're confident, bring it into your real life and real work.</div>
+          </div>
+          <div class="reason-card">
+            <div class="rc-icon">🗂️</div>
+            <div class="rc-title">Build a Portfolio</div>
+            <div class="rc-desc">Everything you create in this course lives in one place — easy to show a recruiter or employer exactly what you can do.</div>
+          </div>
+        </div>
+
+        <div class="iw-steps-wrap">
+          <div class="iw-steps-title">What You Need to Do Right Now — 4 Steps</div>
+          <div class="step-list">
+            <div class="step-item">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="st-title">Create a new Gmail account</div>
+                <div class="st-desc">Go to accounts.google.com → Create Account. Use something like yourname.practice@gmail.com or yourname.gap2growth@gmail.com — something you'll remember is for this course.</div>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="st-title">Find your social media handles</div>
+                <div class="st-desc">Open LinkedIn and Instagram. Copy your profile URLs or note down your usernames. You'll include them in the task below. Don't have either? That's fine — just skip that part.</div>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="st-title">Open any AI tool — ChatGPT, Gemini, or Claude</div>
+                <div class="st-desc">Log in using your new practice Gmail. You're going to use it right now to draft your first real AI-powered email.</div>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="st-title">Draft, personalise, and send your email</div>
+                <div class="st-desc">Follow the task below. Use AI to write the first draft — then edit it to sound like you. Then send it. This is your first real use of AI for professional communication.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="iw-email-row">
+          <span class="iw-email-label">Send your email to both of these addresses:</span>
+          <span class="email-chip">work.krunalrana@gmail.com</span>
+          <span class="email-chip">hello@gap2growth.in</span>
+        </div>
+
+        <div class="iw-task-box">
+          <div class="task-icon">🎯</div>
+          <div>
+            <div class="task-box-title">Today's Task — Your First Real AI Output</div>
+            <div class="task-box-body">
+              Use ChatGPT, Gemini, or Claude to draft a short introduction email. Ask it to write something like this:<br><br>
+              <strong>"Write a professional introduction email. My name is [Name], I study [Course] at [College Name]. My practice email for this course is [email]. My LinkedIn is [link]. My Instagram is [handle]. I'm excited to start learning AI."</strong><br><br>
+              AI will give you a draft. <strong>Don't just copy-paste it.</strong> Read it. Edit 2–3 things to make it sound like you. Then send it to both addresses above.<br><br>
+              That's it. You just used AI for something real. Welcome to the course.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════
+         SECTION 8 — HANDS-ON ACTIVITY
+    ═══════════════════════════════════ -->
+    <div class="sec-head">
+      Section 8 — Hands-On Class Activity
+      <span class="sec-time">1:30 – 2:00 · 30 min</span>
+    </div>
+
+    <div class="segment dark">
+      <div class="seg-label">Energy Check — Reset the Room</div>
+      <div class="seg-title">"Now we stop watching. We start doing."</div>
+      <div class="pitch-text">
+        "Everything you've heard in the last 90 minutes — forget it for now. The only thing that matters in the next 30 minutes is what you build with your own hands. Let's go."
+      </div>
+      <ul class="talk-points">
+        <li>Walk around the room as students work. Don't stand at the front.</li>
+        <li>Find the most hesitant-looking student first — sit next to them, look at their screen, say: <em>"Just type something. Anything. There's no wrong answer."</em></li>
+        <li>For students who finish early: give them the bonus prompt immediately so there's no dead time.</li>
+      </ul>
+    </div>
+
+    <div class="segment blue-tint">
+      <div class="seg-label">Exercise 1 · 10 Minutes</div>
+      <div class="seg-title">The Goa Trip Planner</div>
+      <p class="body-text" style="color:#1e3a8a;">Give everyone this exact prompt to type into their AI tool:</p>
+      <div style="background:#fff; border:1px solid #bfdbfe; border-radius:8px; padding:14px 18px; margin:12px 0; font-family:'DM Mono',monospace; font-size:13px; color:#1e40af; line-height:1.65;">
+        "Plan a 3-day trip to Goa for 2 college friends with a total budget of ₹10,000. Include where to stay, what to eat, how to get there from [their city], and one must-see experience per day."
+      </div>
+      <ul class="talk-points" style="margin-top:4px;">
+        <li style="color:#1e40af;"><strong style="color:#1e3a8a;">After 5 minutes:</strong> Ask: "Who got the most detailed plan? Read it out." — students love this.</li>
+        <li style="color:#1e40af;"><strong style="color:#1e3a8a;">Follow-up:</strong> "Now ask it to make it cheaper. Remove any hotel and use hostels only." — show how AI responds to follow-up instructions.</li>
+        <li style="color:#1e40af;"><strong style="color:#1e3a8a;">Discussion:</strong> "Whose trip plan looks most real? Whose looks like AI made it up? Why the difference?"</li>
+      </ul>
+    </div>
+
+    <div class="segment green-tint">
+      <div class="seg-label">Exercise 2 · 10 Minutes</div>
+      <div class="seg-title">Write Your Professional Introduction</div>
+      <p class="body-text" style="color:#14532d;">Now everyone uses the prompt they crafted during the instruction window — or a version of it — to write a personal introduction:</p>
+      <div style="background:#fff; border:1px solid #bbf7d0; border-radius:8px; padding:14px 18px; margin:12px 0; font-family:'DM Mono',monospace; font-size:13px; color:#065f46; line-height:1.65;">
+        "Write a professional self-introduction for me. My name is [name], I study [course] at [college]. I'm interested in [career area or hobby]. Make it sound confident and warm — not robotic."
+      </div>
+      <ul class="talk-points" style="margin-top:4px;">
+        <li style="color:#166534;"><strong style="color:#14532d;">Ask 2–3 students to read theirs out loud.</strong> Point out what works and what sounds too AI-generated. The class will start to see the difference.</li>
+        <li style="color:#166534;"><strong style="color:#14532d;">Then say:</strong> "Now tell the AI one thing about yourself that wasn't in the prompt — something personal — and ask it to include it." Watch how the output changes.</li>
+        <li style="color:#166534;"><strong style="color:#14532d;">Key lesson to land:</strong> "The more you tell AI about yourself, the better it serves you. It only knows what you give it."</li>
+      </ul>
+    </div>
+
+    <div class="segment">
+      <div class="seg-label">Bonus · If Time Allows</div>
+      <div class="seg-title">Ask AI Something You Actually Want to Know</div>
+      <p class="body-text">Open the floor. Say: "Now ask it anything you've actually been curious about — about your career, your studies, anything. This one is just for you." Give 5 minutes of free exploration. Walk around and look at what students are asking — it tells you a lot about what they really care about.</p>
+      <div class="note">💡 Common great questions students ask: career comparisons, "how do I learn [skill]", salary expectations, how to crack a specific interview — all perfect starting points for Day 2 discussions.</div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════
+         SECTION 9 — CLOSING DISCUSSION
+    ═══════════════════════════════════ -->
+    <div class="sec-head">
+      Section 9 — Closing Discussion
+      <span class="sec-time">1:50 – 2:00 · 10 min</span>
+    </div>
+
+    <div class="segment dark">
+      <div class="seg-label">Don't Lecture — Just Ask</div>
+      <div class="seg-title">"Three questions. I want to hear what you actually think."</div>
+      <div class="pitch-text">
+        "I'm not going to give you answers here. These are questions worth thinking about — seriously. And there are no right or wrong responses."
+      </div>
+      <ul class="talk-points">
+        <li><strong>Q1:</strong> "Will AI replace jobs — or create new ones? What do you think your work will look like in 10 years?" — let 2–3 people answer, build on their responses.</li>
+        <li><strong>Q2:</strong> "What skills do you think will always be valuable, even when AI can do almost everything?" — push for specifics. Creativity? Judgment? Relationships?</li>
+        <li><strong>Q3:</strong> "How should you use AI responsibly? What's one risk we haven't talked about yet?" — students often bring up cheating, fake news, job losses. All valid. Engage with each one.</li>
+        <li><strong>Closing line:</strong> <em>"The people who use AI well and still have strong human skills — judgment, empathy, creativity, real relationships — they will be unstoppable. That combination is what we're building here. See you tomorrow."</em></li>
+      </ul>
+    </div>
+
+
+    <!-- ═══════════════════════════════════
+         HOMEWORK
+    ═══════════════════════════════════ -->
+    <div class="sec-head">Homework — 3 Tools Before Tomorrow</div>
+
+    <div class="segment">
+      <div class="seg-label">Keep It Light</div>
+      <div class="seg-title">"Don't call it homework. Think of it as trying 3 new apps tonight."</div>
+      <p class="body-text">Say this before giving homework — it changes the energy completely. "The goal isn't to become an expert tonight. The goal is just to feel comfortable opening these tools and typing something. That's it."</p>
+    </div>
+
+    <div class="hw-grid">
+      <div class="hw-card">
+        <div class="hw-tool">CHATGPT / GEMINI</div>
+        <div class="hw-title">The WhatsApp Summary</div>
+        <div class="hw-desc">Forward yourself a long WhatsApp conversation. Copy-paste it into AI and ask: "Summarise this conversation in 5 bullet points." See how it distils information for you.</div>
+      </div>
+      <div class="hw-card">
+        <div class="hw-tool">PERPLEXITY AI</div>
+        <div class="hw-title">Search Something Real</div>
+        <div class="hw-desc">Search one topic you're genuinely curious about — a career path, a news story, a concept from your course. Compare Perplexity's answer to what Google gives you.</div>
+      </div>
+      <div class="hw-card">
+        <div class="hw-tool">GAMMA AI</div>
+        <div class="hw-title">60-Second Presentation</div>
+        <div class="hw-desc">Go to gamma.app. Type one sentence about yourself or your college. Hit generate. Watch AI build a complete, designed presentation in under 60 seconds. Share a screenshot in the group.</div>
+      </div>
+    </div>
+
+    <div class="segment" style="margin-top:14px;">
+      <div class="seg-label">Reminder</div>
+      <div class="seg-title">Before You Leave Today</div>
+      <ul class="talk-points">
+        <li>Make sure your <strong>practice Gmail is created</strong> and you know the password.</li>
+        <li>Send your introduction email to <strong>work.krunalrana@gmail.com</strong> and <strong>hello@gap2growth.in</strong> before you sleep tonight.</li>
+        <li>Tomorrow we start <strong>prompt engineering</strong> — how to talk to AI so it gives you exactly what you want. Come with one question you want to ask AI but didn't get a good answer to today.</li>
+      </ul>
+    </div>
+
+
+    <!-- ═══════════════════════════════════
+         DELIVERY TIPS
+    ═══════════════════════════════════ -->
+    <div class="sec-head">Delivery Tips — For Krunal</div>
+
+    <div class="tips-row">
+      <div class="tip">
+        <div class="tip-num">01</div>
+        <div class="tip-title">Move, Don't Stand</div>
+        <p>Walk around the room during explanations. Proximity creates attention. The front of the room is for demos only.</p>
+      </div>
+      <div class="tip">
+        <div class="tip-num">02</div>
+        <div class="tip-title">Gujarati for Warmth</div>
+        <p>Drop a Gujarati phrase when energy drops — "kem chho? samajyu?" It builds instant warmth and resets the room.</p>
+      </div>
+      <div class="tip">
+        <div class="tip-num">03</div>
+        <div class="tip-title">Pause After Big Lines</div>
+        <p>After "AI is your new English" — stop. Count to 5 silently. Let it sit. Rushing past big points kills impact.</p>
+      </div>
+      <div class="tip">
+        <div class="tip-num">04</div>
+        <div class="tip-title">Use "You" Not "Students"</div>
+        <p>"You can use this to…" not "students can use this." Personal language creates connection instantly.</p>
+      </div>
+      <div class="tip">
+        <div class="tip-num">05</div>
+        <div class="tip-title">Celebrate First Outputs</div>
+        <p>When a student gets a great AI response — celebrate it. "Show the class! This is exactly it." It motivates the whole room.</p>
+      </div>
+      <div class="tip">
+        <div class="tip-num">06</div>
+        <div class="tip-title">End Exactly on Time</div>
+        <p>2 hours, not 2:10. Ending on time builds trust. Students feel you respect them. That carries across all 30 days.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
